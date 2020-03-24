@@ -32,10 +32,12 @@
             res.json({
                 youWin: true,
             });
+            return;
         } else if(isGameOver){
             res.json({
                 youLose: true,
             });
+            return;
         }
 
         const {question, answers} = dataQuestions[goodAnswers]; // if 0 -> 1st question
@@ -48,9 +50,9 @@
 
     app.post('/answer/:id', (req, res)=>{
         if(isGameOver)
-            res.json({youLose: true});
+            return res.json({youLose: true});
         else if(goodAnswers===dataQuestions.length)
-            res.json({youWin:true});
+            return res.json({youWin:true});
 
         const {correctAnswer} = dataQuestions[goodAnswers];
         const isCorrect = correctAnswer===Number(req.params.id)?true:false;
@@ -76,7 +78,7 @@
             Mianowicie... Jeśli najpierw zbijesz konia, to reszta gry przebiega w miłej atmosferze. ALE odpowiedź na to pytanie powiedział mi ostatnio fryzjer, jest to: `];
         if (callTheFriendUsed) {
             res.json({
-                answer : unHelpfulAnswer,
+                text : unHelpfulAnswer,
             });
             return;
         }
@@ -84,14 +86,14 @@
         const helpfulAnswer = `${helpResponse[Math.floor(Math.random() * helpResponse.length)]} ${answers[correctAnswer]}`;
          callTheFriendUsed=true;
         res.json({
-            answer: helpfulAnswer,
+            text: helpfulAnswer,
         })
     });
 
     app.get('/prompt/tomaszewHelp', (req, res)=>{
         if(questionToTheCrowdUsed){
            res.json({
-               answer:unHelpResponse
+               text:unHelpResponse
            });
            return;
         }
@@ -100,7 +102,8 @@
         const randomWrongAnswer = wrongAnswers[Math.floor(Math.random()*wrongAnswers.length)];
 
         res.json({
-            answer: [answers[correctAnswer], randomWrongAnswer],
+            options: [answers[correctAnswer], randomWrongAnswer],
+            text: "Strzelaj drogi studencie!"
         });
     })
 

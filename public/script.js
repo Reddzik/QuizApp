@@ -56,17 +56,12 @@ const chooseCorrectTypeOfPrompt = (promptId, data) =>{
     }
 }
 const halfOnHalfPrompt = (data)=>{
-    console.log(data.answer);
     const answerBtn = [...answerButtons];
     const buttonsToDelete = answerBtn.filter(button => {
-        if(button.innerText===data.answer[0] || button.innerText === data.answer[1])
-            return false;
-        else
-            return true;
-    })
-    console.log(buttonsToDelete);
-    buttonsToDelete.forEach(button=> button.style.display="none");
-
+        return !(button.innerText === data.options[0] || button.innerText === data.options[1]);
+    });
+    buttonsToDelete.forEach(button=> button.style.visibility="hidden");
+    showPrompt(data);
 }
 promptButtons.forEach(button => {
     button.addEventListener('click', (e)=>{
@@ -83,15 +78,17 @@ answerButtons.forEach((button)=>{
 });
 
 const showPrompt = (data) =>{
-    if(data.answer===null)
+    if(data.text===null)
         return;
-    promptResult.textContent=data.answer;
+    promptResult.textContent=data.text;
 };
 
 const updateCorrectAnswersCountFiled = (data) =>{
     correctAnswersCountField.innerText = "Poprawne odpowiedzi: "+ data.goodAnswers;
 };
-
+const visibleAllAnswers = () =>{
+    answerButtons.forEach(button=>button.style.visibility="visible")
+};
 
 const showNextQuestion = () =>{
     fetch('/question', {
@@ -100,6 +97,7 @@ const showNextQuestion = () =>{
         .then(data => {
             fillQuestionElements(data);
             clearPromptFiled();
+            visibleAllAnswers();
         })
 };
 
