@@ -48,12 +48,16 @@ const chooseCorrectTypeOfPrompt = (promptId, data) =>{
         return;
     }
     else if(Number(promptId)===1){
-        /*Pytanie do studentów*/
+        askStudentsPrompt(data);
+        return;
     }
     else if(Number(promptId)===2){
         halfOnHalfPrompt(data);
         return;
     }
+}
+const askStudentsPrompt = (data) =>{
+    console.log(data)
 }
 const halfOnHalfPrompt = (data)=>{
     const answerBtn = [...answerButtons];
