@@ -57,9 +57,17 @@ const chooseCorrectTypeOfPrompt = (promptId, data) =>{
     }
 }
 const askStudentsPrompt = (data) =>{
-    console.log(data)
+    if(data.text != null)
+        return showPrompt(data);
+
+    answerButtons.forEach((button,index) =>{
+      button.textContent= `${button.textContent} na ${data.chart[index]} %`;
+    });
 }
 const halfOnHalfPrompt = (data)=>{
+    if(data.options == null)
+        return showPrompt(data);
+
     const answerBtn = [...answerButtons];
     const buttonsToDelete = answerBtn.filter(button => {
         return !(button.innerText === data.options[0] || button.innerText === data.options[1]);

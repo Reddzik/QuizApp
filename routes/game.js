@@ -74,7 +74,7 @@
             `2000 lat temu. Istaniał pewien matematyk, Giorgio Borgio Romanowski... 
             Jak poszedł po jedzenie, bo był zamożny i jadł, to wymyślił pewną liczbę 
             - 4f*3e^2, więc odpowiedź na Twoje pytanie to: `,
-            `Odpowiedź jest dość banalna proszę Państwa. Otóż sztuczna inteligencja, która w roku 2000 pomagała wygrać partię w szachy w Hogwarcie opracowała pewien algorytm.
+            `Odpowiedź jest dość banalna proszę Państwa. Otóż sztuczna inteligencja, która w roku 2000 pomagała wygrać partię szachów w Hogwarcie opracowała pewien algorytm.
             Mianowicie... Jeśli najpierw zbijesz konia, to reszta gry przebiega w miłej atmosferze. ALE odpowiedź na to pytanie powiedział mi ostatnio fryzjer, jest to: `];
         if (callTheFriendUsed) {
             res.json({
@@ -91,12 +91,13 @@
     });
 
     app.get('/prompt/tomaszewHelp', (req, res)=>{
-        if(questionToTheCrowdUsed){
+        if(halfOnHalfUsed){
            res.json({
-               text:unHelpResponse
+               text:unHelpResponse[Math.floor(Math.random()*unHelpResponse.length)],
            });
            return;
         }
+        halfOnHalfUsed= true;
         const {answers, correctAnswer}= dataQuestions[goodAnswers];
         const wrongAnswers = answers.filter((s,index)=>index!==correctAnswer);
         const randomWrongAnswer = wrongAnswers[Math.floor(Math.random()*wrongAnswers.length)];
@@ -108,12 +109,13 @@
     })
 
      app.get('/prompt/askStudents', (req,res)=>{
-         // if(questionToTheCrowdUsed){
-         //     res.json({
-         //         text:"Koniec z tymi podpowiedziami od nas!",
-         //     });
-         //     return;
-         // }
+         if(questionToTheCrowdUsed){
+             res.json({
+                 text:"Koniec z tymi podpowiedziami od nas!",
+             });
+             return;
+         }
+         questionToTheCrowdUsed= true;
          const chart = [10,20,30,40];
          for(let i = chart.length-1 ; i>0 ; i--){
              const change = Math.floor(Math.random() * 20 -10);
